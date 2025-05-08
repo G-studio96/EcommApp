@@ -42,11 +42,11 @@ public class OrderItem {
     }
 
     public OrderModel getOrderId() {
-        return orderId;
+        return order;
     }
 
     public void setOrderId(OrderModel orderId) {
-        this.orderId = orderId;
+        this.order = orderId;
     }
 
     public ProductModel getProductId() {
