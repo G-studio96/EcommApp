@@ -13,6 +13,7 @@ public class PromotionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PROMOTION_ID")
     private Long id;
 
     @OneToOne

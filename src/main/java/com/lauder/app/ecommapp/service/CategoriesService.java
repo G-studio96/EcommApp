@@ -26,7 +26,7 @@ public class CategoriesService {
         categoriesRepo.save(categories);
     }
 
-    public List<CategoriesModel> readCategory(CategoriesModel.CategoryName categories) {
+    public List<CategoriesModel> readCategory(CategoriesModel.COLLECTION categories) {
         return  categoriesRepo.findByCategoryName(categories);
     }
 

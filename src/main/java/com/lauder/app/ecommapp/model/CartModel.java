@@ -1,12 +1,10 @@
 package com.lauder.app.ecommapp.model;
 
 import jakarta.persistence.*;
-
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,7 +20,7 @@ public class CartModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CART_ID")
+    @Column(name = "CART_ID", unique = true)
     private Long cartId;
 
     @ManyToOne

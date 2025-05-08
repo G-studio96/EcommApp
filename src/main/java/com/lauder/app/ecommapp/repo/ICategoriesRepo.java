@@ -14,7 +14,7 @@ public interface ICategoriesRepo extends JpaRepository<CategoriesModel, Long> {
 
     Optional<CategoriesModel> findByCategoryId(Long id);
 
-    List<CategoriesModel> findByCategoryName(CategoriesModel.CategoryName categoryName);
+    List<CategoriesModel> findByCategoryName(CategoriesModel.COLLECTION categoryName);
 
 
 }

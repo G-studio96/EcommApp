@@ -16,7 +16,7 @@ public class OrderModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID")
+    @Column(name = "ORDER_ID", unique = true)
     private Long orderId;
 
     @ManyToOne

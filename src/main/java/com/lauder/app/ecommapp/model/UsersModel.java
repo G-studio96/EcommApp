@@ -53,7 +53,6 @@ public class UsersModel {
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
-
     @Column(name = "ADDRESS_LINE_ONE")
     private String addressLine1;
 

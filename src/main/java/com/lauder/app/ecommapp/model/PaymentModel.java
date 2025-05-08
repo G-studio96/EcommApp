@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class PaymentModel {
 
     @Id
-    @Column(name = "PAYMENT_ID")
+    @Column(name = "PAYMENT_ID", unique = true)
     private Long paymentId;
 
     @ManyToOne

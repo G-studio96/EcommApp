@@ -12,15 +12,15 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ITEM_ID")
+    @Column(name = "ORDER_ITEM_ID", unique = true)
     private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "ORDER_ID", nullable = false)
     private OrderModel order;
 
     @ManyToOne
-    @JoinColumn(name = "PRODUCT_ID")
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private ProductModel product;
 
 

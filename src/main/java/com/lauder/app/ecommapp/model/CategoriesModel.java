@@ -1,9 +1,7 @@
 package com.lauder.app.ecommapp.model;
 
 import jakarta.persistence.*;
-
 import lombok.Data;
-
 
 import java.time.LocalDateTime;
 
@@ -13,12 +11,13 @@ import java.time.LocalDateTime;
 public class CategoriesModel {
 
     @Id
-    @Column(name = "CATEGORY_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CATEGORY_ID", unique = true)
     private Long categoryId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "CATEGORY_NAME")
-    private CategoryName categoryName;
+    @Column(name = "COLLECTION", unique = true)
+    private COLLECTION collection;
 
 
 
@@ -28,14 +27,33 @@ public class CategoriesModel {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    public enum  CategoryName {
-        POTS,
-        PLANTS,
-        FLOWERS,
-        TOOLS,
-        TREES,
-        SEEDS,
-        ACCESSORIES
+    public enum COLLECTION {
+
+        KINGS,
+        QUEENS
+    }
+
+    public enum Men {
+        AVIATOR,
+        WAYFARER,
+        CLUBMASTER,
+        D_FRAME,
+        NAVIGATOR,
+        RECTANGLE,
+        SQUARE,
+        ROUND,
+
+
+    }
+
+    public enum Women {
+        OVERSIZED,
+        CAT_EYE,
+        BUTTERFLY,
+        HEXAGON,
+        OVAL,
+        WHITE_FRAME,
+        YELLOW_TINTED
     }
 
     public Long getCategoryId() {
@@ -46,12 +64,12 @@ public class CategoriesModel {
         this.categoryId = categoryId;
     }
 
-    public CategoryName getCategoryName() {
-        return categoryName;
+    public COLLECTION getCategoryName() {
+        return collection;
     }
 
-    public void setCategoryName(CategoryName categoryName) {
-        this.categoryName = categoryName;
+    public void setCategoryName(COLLECTION collection) {
+        this.collection = collection;
     }
 
     public LocalDateTime getCreatedAt() {

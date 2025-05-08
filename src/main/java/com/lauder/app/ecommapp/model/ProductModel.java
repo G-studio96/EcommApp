@@ -3,7 +3,6 @@ package com.lauder.app.ecommapp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -14,7 +13,8 @@ import java.time.LocalDateTime;
 public class ProductModel {
 
     @Id
-    @Column(name ="ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PRODUCT_ID", unique = true)
     private Long productId;
 
     @ManyToOne
@@ -38,6 +38,28 @@ public class ProductModel {
 
     @Column(name ="URL")
     private String url;
+
+
+    public enum FRAME {
+
+    }
+
+    public enum TINT {
+        VERY_LIGHT,
+        LIGHT,
+        MEDIUM,
+        DARK,
+
+    }
+
+    public enum SHADOW {
+        BLUE,
+        BROWN,
+        YELLOW,
+        PURPLE,
+        RED
+
+    }
 
     public String getUrl() {
         return url;

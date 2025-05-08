@@ -15,7 +15,7 @@ public class Promoter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PROMOTERS_ID")
+    @Column(name = "PROMOTERS_ID", unique = true)
     private Long promotersId;
 
     @OneToOne

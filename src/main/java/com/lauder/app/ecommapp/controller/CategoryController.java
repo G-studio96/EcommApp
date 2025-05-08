@@ -38,7 +38,7 @@ public class CategoryController {
     @PostMapping("/update/{categoryId}")
     public ResponseEntity<CategoriesModel> updateCategory(@PathVariable long categoryId, @Valid @RequestBody CategoriesModel categoriesModel) {
 
-        if(Objects.nonNull(categoriesService.readCategory(CategoriesModel.CategoryName.valueOf(String.valueOf(categoryId))))) {
+        if (Objects.nonNull(categoriesService.readCategory(CategoriesModel.COLLECTION.valueOf(String.valueOf(categoryId))))) {
             categoriesService.updateCategory(categoryId, categoriesModel);
             logger.info("Category updated correctly {}" , categoryId);
             return new ResponseEntity<>(HttpStatus.OK);
