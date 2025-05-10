@@ -55,8 +55,9 @@ public class Promoter {
     @Column(name = "PLATFORM")
     private Set<PromotionModel.Platform> platform = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "Total")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "COMMISSION")
+    private RebateEarned commission;
 
     @Column(name = "ADDRESS_LINE_ONE")
     private String AddressLineOne;

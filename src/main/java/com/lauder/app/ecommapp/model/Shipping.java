@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Shipping")
+@Table(name = "shipping")
 public class Shipping {
 
     @Id
@@ -16,8 +16,15 @@ public class Shipping {
     private Long shippingId;
 
     @ManyToOne
-    @JoinColumn(name = "ORDER_ID", unique = true)
+    @JoinColumn(name = "ORDER_ID", nullable = false)
     private OrderModel order;
+
+    @ManyToMany
+    @JoinTable(
+            name = "shipping_status",
+            joinColumns = @JoinColumn(name = "SHIPPING_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SHIPPING_STATUS_ID"))
+    private Set<ShippingStatus> shippingStatuses;
 
     @ManyToMany
     @JoinTable(
@@ -63,6 +70,12 @@ public class Shipping {
     @Column(name = "EIRCODE")
     private String eircode;
 
+    @Column(name = "CREATED_AT")
+    private LocalDateTime createdAt;
+
+    @Column(name = "UPDATED_AT")
+    private LocalDateTime updatedAt;
+
     public Shipping() {
 
     }
@@ -89,7 +102,8 @@ public class Shipping {
         this.eircode = eircode;
 
     }
-    @CollectionTable(name = "TRACKING_NUMBER", joinColumns = @JoinColumn("SHIPPING_ID"))
+
+    @CollectionTable(name = "TRACKING_NUMBER", joinColumns = @JoinColumn(referencedColumnName = "SHIPPING_ID"))
     @Column(name = "TRACKING_NUMBER", unique = true)
     private Long trackingNumber;
 
@@ -114,6 +128,14 @@ public class Shipping {
 
     public void setOrder(OrderModel order) {
         this.order = order;
+    }
+
+    public Set<ShippingStatus> getShippingStatuses() {
+        return shippingStatuses;
+    }
+
+    public void setShippingStatuses(Set<ShippingStatus> shippingStatuses) {
+        this.shippingStatuses = shippingStatuses;
     }
 
     public Set<ProductModel> getProducts() {
@@ -210,6 +232,22 @@ public class Shipping {
 
     public void setEircode(String eircode) {
         this.eircode = eircode;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Long getTrackingNumber() {

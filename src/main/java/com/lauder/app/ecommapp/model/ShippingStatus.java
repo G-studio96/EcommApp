@@ -11,12 +11,16 @@ public class ShippingStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "shipping_status_id")
+    @Column(name = "SHIPPING_STATUS_ID")
     private Long shippingId;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "SHIPPING_STATUS")
     private Set<Status> status;
+
+    @ManyToOne
+    @JoinColumn(name = "SHIPPING_ID", nullable = false)
+    private Shipping shipping;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
@@ -46,6 +50,14 @@ public class ShippingStatus {
 
     public void setStatus(Set<Status> status) {
         this.status = status;
+    }
+
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
     }
 
     public LocalDateTime getCreatedAt() {
