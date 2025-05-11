@@ -2,6 +2,7 @@ package com.lauder.app.ecommapp.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -19,39 +20,50 @@ public class OrderModel {
     @Column(name = "ORDER_ID", unique = true)
     private Long orderId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID")
     private UsersModel customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PAYMENT_ID")
     private PaymentModel paymentId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STATUS_ID")
     private OrderStatus statusId;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "order_status",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "status_id"))
     private Set<OrderStatus> orderStatus;
 
-    @Column(name = "ORDER_DATE")
+    @Column(name = "ORDER_DATE", nullable = false)
     private LocalDateTime orderDate;
 
-    @Column(name = "TOTAL")
+    @Positive
+    @Column(name = "TOTAL", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
-    @Column(name = "CREATED_AT")
-    private LocalDateTime localDateTime;
+    @Column(name = "CREATED_AT", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
-    @Column(name = "UPDATED_AT")
+    @Column(name = "UPDATED_AT", updatable = true, nullable = false)
     private LocalDateTime updatedTime;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedTime = LocalDateTime.now();
+    }
 
     public Long getOrderId() {
         return orderId;
@@ -126,12 +138,12 @@ public class OrderModel {
         this.statusId = statusId;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedTime() {

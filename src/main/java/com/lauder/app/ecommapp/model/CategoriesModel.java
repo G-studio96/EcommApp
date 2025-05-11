@@ -20,11 +20,10 @@ public class CategoriesModel {
     private COLLECTION collection;
 
 
-
-    @Column(name = "CREATED_AT")
+    @Column(name = "CREATED_AT", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "UPDATED_AT")
+    @Column(name = "UPDATED_AT", nullable = false)
     private LocalDateTime updatedAt;
 
     public enum COLLECTION {
@@ -86,5 +85,16 @@ public class CategoriesModel {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 }

@@ -17,21 +17,21 @@ public class PaymentModel {
     @Column(name = "PAYMENT_ID", unique = true)
     private Long paymentId;
 
-    @ManyToOne
-    @JoinColumn(name = "CUSTOMER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private UsersModel customers;
 
-    @ManyToOne
-    @JoinColumn(name = "ORDER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORDER_ID", nullable = false)
     private OrderModel orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID", nullable = false)
     private CategoriesModel category;
 
 
-    @ManyToOne
-    @JoinColumn(name = "NAME")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "NAME", nullable = false)
     private UsersModel name;
 
     @Email
@@ -59,26 +59,26 @@ public class PaymentModel {
     @Column(name = "TOTAL", precision = 10, scale = 2)
     private BigDecimal total;
 
-    @Column(name = "PAYMENT_DATE")
+    @Column(name = "PAYMENT_DATE", updatable = false, nullable = false)
     private LocalDateTime paymentDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "PAYMENT_STATUS")
+    @Column(name = "PAYMENT_STATUS", nullable = false)
     private PaymentStatus status;
 
-    @Column(name = "PROMO_CODE_APPLIED")
+    @Column(name = "PROMO_CODE_APPLIED", updatable = false)
     private String promoCodeApplied;
 
-    @Column(name = "CREATED_BY")
+    @Column(name = "CREATED_BY", updatable = false, nullable = false)
     private String createdBy;
 
-    @Column(name = "CREATED_DATE")
+    @Column(name = "CREATED_DATE", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
-    @Column(name = "LAST_MODIFIED_BY")
+    @Column(name = "LAST_MODIFIED_BY", nullable = false)
     private String lastModifiedBy;
 
-    @Column(name = "LAST_MODIFIED_DATE")
+    @Column(name = "LAST_MODIFIED_DATE", nullable = false)
     private LocalDateTime lastModifiedDate;
 
 

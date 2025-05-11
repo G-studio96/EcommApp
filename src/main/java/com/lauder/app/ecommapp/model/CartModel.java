@@ -23,41 +23,43 @@ public class CartModel {
     @Column(name = "CART_ID", unique = true)
     private Long cartId;
 
-    @ManyToOne
-    @JoinColumn(name = "CUSTOMER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private UsersModel customerId;
 
-    @ManyToOne
-    @JoinColumn(name ="ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private ProductModel productId;
 
-    @ManyToOne
-    @JoinColumn(name = "PRODUCT_NAME")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PRODUCT_NAME", nullable = false)
     private ProductModel productName;
 
+    @Positive
     @Min(1)
-    @Column(name = "QUANTITY")
+    @Column(name = "QUANTITY", nullable = false)
     private int quantity;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItemModel> cartItemModels  = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PROMOTION_ID")
     private PromotionModel promotion;
+
     @Positive
-    @Column(name = "PRICE")
+    @Column(name = "PRICE", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-
-    @Column(name = "TOTAL")
+    @Positive
+    @Column(name = "TOTAL", nullable = false, precision = 10, scale = 2)
     private BigDecimal total;
 
-    @Column(name = "CREATED_AT")
-    private LocalDateTime localDateTime;
+    @Column(name = "CREATED_AT", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedTime;
+    @Column(name = "UPDATED_AT", nullable = false)
+    private LocalDateTime updatedAt;
 
 
     public Long getCartId() {
@@ -149,19 +151,29 @@ public class CartModel {
     }
 
     public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+        return createdAt;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setLocalDateTime(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public LocalDateTime getUpdatedTime() {
-        return updatedTime;
+        return updatedAt;
     }
 
     public void setUpdatedTime(LocalDateTime updatedTime) {
-        this.updatedTime = updatedTime;
+        this.updatedAt = updatedTime;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     @Transactional
