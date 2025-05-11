@@ -19,21 +19,18 @@ public class Promoter {
     private Long promotersId;
 
     @OneToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private UsersModel customerId;
 
-    @ManyToMany(mappedBy = "promoters")
-    private Set<UsersModel> customers;
 
-
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private  String name;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", nullable = false, unique = true)
     @jakarta.validation.constraints.Email
     private String email;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSWORD", nullable = false)
     @Convert(converter = PasswordEncryptionConverter.class)
     private String password;
 
@@ -55,9 +52,8 @@ public class Promoter {
     @Column(name = "PLATFORM")
     private Set<PromotionModel.Platform> platform = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "COMMISSION")
-    private RebateEarned commission;
+    @OneToMany(mappedBy = "promoter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RebateEarned> commissions = new HashSet<>();
 
     @Column(name = "ADDRESS_LINE_ONE")
     private String AddressLineOne;
@@ -102,13 +98,6 @@ public class Promoter {
         this.customerId = customerId;
     }
 
-    public Set<UsersModel> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(Set<UsersModel> customers) {
-        this.customers = customers;
-    }
 
     public String getName() {
         return name;

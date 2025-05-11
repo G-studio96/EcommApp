@@ -3,8 +3,7 @@ package com.lauder.app.ecommapp.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "earnings")
@@ -12,22 +11,38 @@ public class RebateEarned {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rebate_Id")
+    @Column(name = "rebate_id")
     private Long id;
 
-    @ManyToMany(mappedBy = "promoter", cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promoter_id", nullable = false)
     private Promoter promoter;
 
-    @ManyToMany(mappedBy = "promotion", cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promotion_id", nullable = false)
     private PromotionModel promotion;
 
-    @Column(name = "EARNINGS")
+    @Column(name = "earnings", nullable = false)
     private BigDecimal earnings;
 
+    @Column(name = "month", nullable = false)
+    private String month;
 
-    private static Map<Promoter, PromotionModel> countAmountPromoCodesUsed;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    private static Map<Promoter, BigDecimal> payout = new HashMap<>();
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -61,19 +76,6 @@ public class RebateEarned {
         this.earnings = earnings;
     }
 
-    public static Map<Promoter, PromotionModel> getCountAmountPromoCodesUsed() {
-        return countAmountPromoCodesUsed;
-    }
 
-    public static void setCountAmountPromoCodesUsed(Map<Promoter, PromotionModel> countAmountPromoCodesUsed) {
-        RebateEarned.countAmountPromoCodesUsed = countAmountPromoCodesUsed;
-    }
 
-    public static Map<Promoter, BigDecimal> getPayout() {
-        return payout;
-    }
-
-    public static void setPayout(Map<Promoter, BigDecimal> payout) {
-        RebateEarned.payout = payout;
-    }
 }

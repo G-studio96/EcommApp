@@ -88,6 +88,7 @@ public class PromotionService {
     @Cacheable("ListOfInfluencersAndPromoCode")
     public List<PromotionResponse> getAllPromotersAndPromoCodes(String influencers, Set<String> promoCode) {
         logger.info("Displaying all influencers {} and there Promo Codes {}", influencers, promoCode);
-        return iPromotionRepo.findAllBySocialHandleAndPromoCode(influencers, promoCode).stream().map(promotionMapper::toResponse).collect(Collectors.toList());
+        return iPromotionRepo.findAllBySocialHandleAndPromoCode(influencers, promoCode)
+                .stream().map(promotionMapper::toResponse).collect(Collectors.toList());
     }
 }
