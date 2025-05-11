@@ -1,118 +1,52 @@
-package com.lauder.app.ecommapp.model;
+package com.lauder.app.ecommapp.dto.request.shipping;
 
-import jakarta.persistence.*;
+import com.lauder.app.ecommapp.model.OrderModel;
+import com.lauder.app.ecommapp.model.ProductModel;
+import com.lauder.app.ecommapp.model.ShippingStatus;
+import com.lauder.app.ecommapp.model.UsersModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name = "shipping")
-public class Shipping {
+public class RequestShipping {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SHIPPING_ID", unique = true)
     private Long shippingId;
 
-    @ManyToOne
-    @JoinColumn(name = "ORDER_ID", nullable = false)
+
     private OrderModel order;
 
-    @ManyToMany
-    @JoinTable(
-            name = "shipping_status",
-            joinColumns = @JoinColumn(name = "SHIPPING_ID"),
-            inverseJoinColumns = @JoinColumn(name = "SHIPPING_STATUS_ID"))
     private Set<ShippingStatus> shippingStatuses;
 
-    @ManyToMany
-    @JoinTable(
-            name = "shipping_products",
-            joinColumns = @JoinColumn(name = "SHIPPING_ID "),
-            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
+
     private Set<ProductModel> products;
 
-    @ElementCollection
-    @CollectionTable(name = "shipping_product_names",
-            joinColumns = @JoinColumn(name = "SHIPPING_ID"))
-    @Column(name = "PRODUCT_NAME")
+
     private List<String> productName;
 
-    @Column(name = "Quantity")
     private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private UsersModel customers;
 
-    @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
 
-    @Column(name = "ADDRESS_LINE_ONE")
     private String addressLine1;
 
-    @Column(name = "ADDRESS_LINE_TWO")
     private String addressLine2;
 
-    @Column(name = "ADDRESS_LINE_THREE")
     private String addressLine3;
 
-    @Column(name = "CITY")
     private String city;
 
-    @Column(name = "COUNTY")
     private String county;
 
-    @Column(name = "COUNTRY")
     private String country;
 
-    @Column(name = "EIRCODE")
     private String eircode;
 
-    @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
-
-    public Shipping() {
-
-    }
-
-    public Shipping(
-            Long shippingId, OrderModel order,
-            Set<ProductModel> products, List<String> productName,
-            int quantity, UsersModel customers, String phoneNumber,
-            String addressLine1, String addressLine2, String addressLine3,
-            String city, String county, String country, String eircode) {
-        this.shippingId = shippingId;
-        this.order = order;
-        this.products = products;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.customers = customers;
-        this.phoneNumber = phoneNumber;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
-        this.addressLine3 = addressLine3;
-        this.city = city;
-        this.county = county;
-        this.country = country;
-        this.eircode = eircode;
-
-    }
-
-    @CollectionTable(name = "TRACKING_NUMBER", joinColumns = @JoinColumn(referencedColumnName = "SHIPPING_ID"))
-    @Column(name = "TRACKING_NUMBER", unique = true)
-    private Long trackingNumber;
-
-    @Column(name = "CREATED_AT", updatable = false, nullable = false)
-    private LocalDateTime created;
-
-    @Column(name = "UPDATED_AT", nullable = false)
-    private LocalDateTime updated;
-
 
     public Long getShippingId() {
         return shippingId;
@@ -248,29 +182,5 @@ public class Shipping {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Long getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(Long trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
     }
 }

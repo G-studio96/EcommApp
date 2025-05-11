@@ -1,6 +1,7 @@
 package com.lauder.app.ecommapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,26 +23,27 @@ public class RebateEarned {
     @JoinColumn(name = "promotion_id", nullable = false)
     private PromotionModel promotion;
 
+    @Positive
     @Column(name = "earnings", nullable = false)
     private BigDecimal earnings;
 
     @Column(name = "month", nullable = false)
     private String month;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "start_month")
+    private LocalDateTime startMonth;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name = "end_month")
+    private LocalDateTime endMonth;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        startMonth = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        endMonth = LocalDateTime.now();
     }
 
     public Long getId() {

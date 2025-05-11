@@ -1,40 +1,21 @@
-package com.lauder.app.ecommapp.model;
+package com.lauder.app.ecommapp.dto.response.shipping;
 
-import jakarta.persistence.*;
+import com.lauder.app.ecommapp.model.Shipping;
+import com.lauder.app.ecommapp.model.ShippingStatus;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Entity
-@Table(name = "shipping_status")
-public class ShippingStatus {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SHIPPING_STATUS_ID")
+public class ResponseShippingStatus {
     private Long shippingId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "SHIPPING_STATUS")
-    private Set<Status> status;
+    private Set<ShippingStatus.Status> status;
 
-    @ManyToOne
-    @JoinColumn(name = "SHIPPING_ID", nullable = false)
     private Shipping shipping;
 
-    @Column(name = "CREATED_AT", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "UPDATED_AT", nullable = false)
     private LocalDateTime updatedAt;
-
-
-    public enum Status {
-        COLLECTED,
-        DEPOT,
-        EN_ROUTE,
-        DELIVERED
-    }
 
     public Long getShippingId() {
         return shippingId;
@@ -44,11 +25,11 @@ public class ShippingStatus {
         this.shippingId = shippingId;
     }
 
-    public Set<Status> getStatus() {
+    public Set<ShippingStatus.Status> getStatus() {
         return status;
     }
 
-    public void setStatus(Set<Status> status) {
+    public void setStatus(Set<ShippingStatus.Status> status) {
         this.status = status;
     }
 
