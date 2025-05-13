@@ -15,7 +15,7 @@ public class PaymentAuditAspect {
 
     private final Logger logger = LoggerFactory.getLogger(PaymentAuditAspect.class);
 
-    @Around("execution(* com.lauder.app.ecommapp.repo.IPaymentRepo.*(..))")
+    @Around("execution(* com.lauder.app.ecommapp.repo.ICheckoutRepo.*(..))")
     public Object logPaymentAccess(ProceedingJoinPoint joinPoint) throws  Throwable {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth != null ? auth.getName() : "anonymous";

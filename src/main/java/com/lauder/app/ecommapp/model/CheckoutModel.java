@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "payments")
-public class PaymentModel {
+public class CheckoutModel {
 
     @Id
     @Column(name = "PAYMENT_ID", unique = true)

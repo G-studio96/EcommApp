@@ -1,8 +1,8 @@
 package com.lauder.app.ecommapp.repo;
 
 
+import com.lauder.app.ecommapp.model.CheckoutModel;
 import com.lauder.app.ecommapp.model.OrderModel;
-import com.lauder.app.ecommapp.model.PaymentModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +20,7 @@ public interface IOrderRepo extends JpaRepository<OrderModel, Long> {
     @Override
     List<OrderModel> findAll();
 
-    List<OrderModel> findByPaymentId(PaymentModel paymentId);
+    List<OrderModel> findByPaymentId(CheckoutModel paymentId);
 
     List<OrderModel> findByTotalAmountBetween(BigDecimal min, BigDecimal max);
 

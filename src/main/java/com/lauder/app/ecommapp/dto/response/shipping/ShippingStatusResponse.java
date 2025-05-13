@@ -1,30 +1,20 @@
-package com.lauder.app.ecommapp.dto.request.shipping;
+package com.lauder.app.ecommapp.dto.response.shipping;
 
 import com.lauder.app.ecommapp.model.Shipping;
 import com.lauder.app.ecommapp.model.ShippingStatus;
-import jakarta.validation.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-public class RequestShippingStatus {
-
-    @NotBlank(message = "required Shipping Id ")
+public class ShippingStatusResponse {
     private Long shippingId;
 
-    @NotBlank(message = "required status")
     private Set<ShippingStatus.Status> status;
 
-    @NotBlank(message = "required Shipping info ")
     private Shipping shipping;
 
-    @NotBlank(message = "required created at time ")
-    @DateTimeFormat
     private LocalDateTime createdAt;
 
-    @NotBlank(message = "required updated at time")
-    @DateTimeFormat
     private LocalDateTime updatedAt;
 
     public Long getShippingId() {

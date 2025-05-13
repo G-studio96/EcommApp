@@ -4,7 +4,7 @@ package com.lauder.app.ecommapp.controller;
 
 import com.lauder.app.ecommapp.dto.request.order.OrderRequest;
 import com.lauder.app.ecommapp.dto.response.order.OrderResponse;
-import com.lauder.app.ecommapp.model.PaymentModel;
+import com.lauder.app.ecommapp.model.CheckoutModel;
 import com.lauder.app.ecommapp.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,7 +104,7 @@ OrdersController {
 
     @GetMapping("/transaction/{transactionId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<OrderResponse>> getOrdersByTransactionId(@PathVariable PaymentModel transactionId) {
+    public ResponseEntity<List<OrderResponse>> getOrdersByTransactionId(@PathVariable CheckoutModel transactionId) {
         List<OrderResponse> orders = orderService.getOrdersByTransactionId(transactionId);
         return ResponseEntity.ok(orders);
     }

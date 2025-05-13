@@ -4,7 +4,7 @@ package com.lauder.app.ecommapp.controller;
 
 import com.lauder.app.ecommapp.dto.request.payments.PaymentRequest;
 import com.lauder.app.ecommapp.dto.response.payments.PaymentResponse;
-import com.lauder.app.ecommapp.service.PaymentService;
+import com.lauder.app.ecommapp.service.checkoutService;
 import com.lauder.app.ecommapp.service.paymentsservice.PaymentProcessorService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -25,21 +25,21 @@ import java.util.List;
 public class PaymentController {
 
     final Logger logger = LoggerFactory.getLogger(PaymentController.class);
-    private final PaymentService paymentService;
+    private final checkoutService checkoutService;
 
     private final PaymentProcessorService paymentProcessorService;
 
 
     @Autowired
-    public PaymentController(PaymentService paymentService, PaymentProcessorService paymentProcessorService) {
-        this.paymentService = paymentService;
+    public PaymentController(checkoutService checkoutService, PaymentProcessorService paymentProcessorService) {
+        this.checkoutService = checkoutService;
         this.paymentProcessorService = paymentProcessorService;
     }
 
     @PostMapping("/create")
     public ResponseEntity<PaymentResponse> createPayment(@Valid  @RequestBody PaymentRequest paymentRequest) {
         logger.info("Payment request received for order: {}", paymentRequest.getOrderId());
-        PaymentResponse createdPayment = paymentService.createPayment(paymentRequest);
+        PaymentResponse createdPayment = checkoutService.createPayment(paymentRequest);
         URI location = ServletUriComponentsBuilder.
                 fromCurrentRequest()
                 .path("/{id}")
@@ -54,7 +54,7 @@ public class PaymentController {
             logger.info("Fetching payment with id: {}", id);
 
             try {
-                PaymentResponse payment = paymentService.getPayment(id);
+                PaymentResponse payment = checkoutService.getPayment(id);
                 return ResponseEntity.ok(payment);
             } catch (ResourceNotFoundException e) {
                 logger.error("Payment not found with id: {} ", id);

@@ -1,4 +1,4 @@
-package com.lauder.app.ecommapp.dto.response.shipping;
+package com.lauder.app.ecommapp.dto.request.shipping;
 
 import com.lauder.app.ecommapp.model.OrderModel;
 import com.lauder.app.ecommapp.model.ProductModel;
@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-public class ResponseShipping {
+public class ShippingRequest {
+
     private Long shippingId;
 
 
@@ -42,6 +43,8 @@ public class ResponseShipping {
     private String country;
 
     private String eircode;
+
+    private Long trackerNumber;
 
     private LocalDateTime createdAt;
 
@@ -181,5 +184,13 @@ public class ResponseShipping {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getTrackerNumber() {
+        return trackerNumber;
+    }
+
+    public void setTrackerNumber(Long trackerNumber) {
+        this.trackerNumber = trackerNumber;
     }
 }

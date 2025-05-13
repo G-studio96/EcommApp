@@ -78,6 +78,27 @@ public class RebateEarned {
         this.earnings = earnings;
     }
 
+    public String getMonth() {
+        return month;
+    }
 
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
+    public LocalDateTime getStartMonth() {
+        return startMonth;
+    }
+
+    public void setStartMonth(LocalDateTime startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public LocalDateTime getEndMonth() {
+        return endMonth;
+    }
+
+    public void setEndMonth(LocalDateTime endMonth) {
+        this.endMonth = endMonth;
+    }
 }

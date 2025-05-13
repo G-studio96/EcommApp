@@ -4,13 +4,13 @@ package com.lauder.app.ecommapp.service;
 import com.lauder.app.ecommapp.dto.request.order.OrderRequest;
 import com.lauder.app.ecommapp.dto.response.order.OrderResponse;
 import com.lauder.app.ecommapp.mapper.ordersMapper.OrderMapper;
-import com.lauder.app.ecommapp.model.UsersModel;
+import com.lauder.app.ecommapp.model.CheckoutModel;
 import com.lauder.app.ecommapp.model.OrderModel;
 import com.lauder.app.ecommapp.model.OrderStatus;
-import com.lauder.app.ecommapp.model.PaymentModel;
-import com.lauder.app.ecommapp.repo.IUsersRepo;
+import com.lauder.app.ecommapp.model.UsersModel;
 import com.lauder.app.ecommapp.repo.IOrderRepo;
 import com.lauder.app.ecommapp.repo.IOrderStatusRepo;
+import com.lauder.app.ecommapp.repo.IUsersRepo;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -164,7 +166,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderResponse> getOrdersByTransactionId(PaymentModel transactionId) {
+    public List<OrderResponse> getOrdersByTransactionId(CheckoutModel transactionId) {
         logger.info("Fetching orders with transaction ID: {}", transactionId);
 
         return orderRepo.findByPaymentId(transactionId)

@@ -4,8 +4,8 @@ package com.lauder.app.ecommapp.service;
 import com.lauder.app.ecommapp.dto.request.payments.PaymentRequest;
 import com.lauder.app.ecommapp.dto.response.payments.PaymentResponse;
 import com.lauder.app.ecommapp.mapper.paymentsMapper.PaymentMapper;
-import com.lauder.app.ecommapp.model.PaymentModel;
-import com.lauder.app.ecommapp.repo.IPaymentRepo;
+import com.lauder.app.ecommapp.model.CheckoutModel;
+import com.lauder.app.ecommapp.repo.ICheckoutRepo;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,43 +18,43 @@ import java.time.LocalDateTime;
 
 @Service
 @Transactional
-public class PaymentService  {
+public class checkoutService {
 
-    private final IPaymentRepo iPaymentRepo;
+    private final ICheckoutRepo iCheckoutRepo;
     private final PaymentMapper paymentMapper;
 
-    final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    final Logger logger = LoggerFactory.getLogger(checkoutService.class);
 
     @Autowired
-    public  PaymentService(IPaymentRepo iPaymentRepo, PaymentMapper paymentMapper) {
+    public checkoutService(ICheckoutRepo iCheckoutRepo, PaymentMapper paymentMapper) {
 
-        this.iPaymentRepo = iPaymentRepo;
+        this.iCheckoutRepo = iCheckoutRepo;
         this.paymentMapper = paymentMapper;
     }
 
 
     public PaymentResponse createPayment(PaymentRequest paymentRequest) {
         logger.info("Creating payment for order: {}", paymentRequest.getOrderId());
-        PaymentModel paymentModel = paymentMapper.toEntity(paymentRequest);
+        CheckoutModel paymentModel = paymentMapper.toEntity(paymentRequest);
         paymentModel.setPaymentDate(LocalDateTime.now());
-        paymentModel.setStatus(PaymentModel.PaymentStatus.PENDING);
-        PaymentModel savedPayment = iPaymentRepo.save(paymentModel);
+        paymentModel.setStatus(CheckoutModel.PaymentStatus.PENDING);
+        CheckoutModel savedPayment = iCheckoutRepo.save(paymentModel);
         return  paymentMapper.toResponse(savedPayment);
 
     }
 
     @Cacheable("payments")
     public PaymentResponse getPayment(Long id) {
-        return iPaymentRepo.findById(id)
+        return iCheckoutRepo.findById(id)
                 .map(paymentMapper::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Payment not found with id: " + id));
 
     }
 
-    public PaymentResponse updatePaymentStatus(Long id, PaymentModel.PaymentStatus status) {
-        PaymentModel paymentModel = iPaymentRepo.findById(id).orElseThrow(()
+    public PaymentResponse updatePaymentStatus(Long id, CheckoutModel.PaymentStatus status) {
+        CheckoutModel paymentModel = iCheckoutRepo.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("Payment not found with id: " + id));
-            return paymentMapper.toResponse(iPaymentRepo.save(paymentModel));
+        return paymentMapper.toResponse(iCheckoutRepo.save(paymentModel));
     }
 
 

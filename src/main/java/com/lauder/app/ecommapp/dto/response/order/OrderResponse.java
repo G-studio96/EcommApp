@@ -1,10 +1,9 @@
 package com.lauder.app.ecommapp.dto.response.order;
 
 
-
-import com.lauder.app.ecommapp.model.UsersModel;
+import com.lauder.app.ecommapp.model.CheckoutModel;
 import com.lauder.app.ecommapp.model.OrderStatus;
-import com.lauder.app.ecommapp.model.PaymentModel;
+import com.lauder.app.ecommapp.model.UsersModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ public class OrderResponse {
 
     private UsersModel customerId;
 
-    private PaymentModel payment;
+    private CheckoutModel payment;
 
     private Set<OrderStatus> statue;
 
@@ -45,11 +44,11 @@ public class OrderResponse {
         this.customerId = customerId;
     }
 
-    public PaymentModel getPayment() {
+    public CheckoutModel getPayment() {
         return payment;
     }
 
-    public void setPayment(PaymentModel payment) {
+    public void setPayment(CheckoutModel payment) {
         this.payment = payment;
     }
 

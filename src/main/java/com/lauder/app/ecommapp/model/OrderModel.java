@@ -26,7 +26,7 @@ public class OrderModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PAYMENT_ID")
-    private PaymentModel paymentId;
+    private CheckoutModel paymentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STATUS_ID")
@@ -114,11 +114,11 @@ public class OrderModel {
         this.orderItems = orderItems;
     }
 
-    public PaymentModel getPaymentId() {
+    public CheckoutModel getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(PaymentModel paymentId) {
+    public void setPaymentId(CheckoutModel paymentId) {
         this.paymentId = paymentId;
     }
 

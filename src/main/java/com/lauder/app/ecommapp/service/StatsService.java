@@ -32,7 +32,7 @@ public class StatsService {
     final IOrderRepo orderRepo;
 
     final OrderMapper orderMapper;
-    final IPaymentRepo paymentRepo;
+    final ICheckoutRepo paymentRepo;
 
     final PaymentMapper paymentMapper;
 
@@ -52,7 +52,7 @@ public class StatsService {
 
     @Autowired
     public StatsService(IUsersRepo usersRepo, IOrderRepo orderRepo,
-                        IPaymentRepo paymentRepo, IPromoterRepo promoterRepo,
+                        ICheckoutRepo paymentRepo, IPromoterRepo promoterRepo,
                         UsersMapper usersMapper, OrderMapper orderMapper,
                         PaymentMapper paymentMapper, PromoterMapper promoterMapper,
                         CartMapper cartMapper, ICartRepo cartRepo)

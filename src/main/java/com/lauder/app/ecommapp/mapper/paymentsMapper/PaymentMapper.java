@@ -4,7 +4,7 @@ package com.lauder.app.ecommapp.mapper.paymentsMapper;
 
 import com.lauder.app.ecommapp.dto.request.payments.PaymentRequest;
 import com.lauder.app.ecommapp.dto.response.payments.PaymentResponse;
-import com.lauder.app.ecommapp.model.PaymentModel;
+import com.lauder.app.ecommapp.model.CheckoutModel;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @Component
 public class PaymentMapper {
 
-    public PaymentModel toEntity(PaymentRequest paymentRequest) {
+    public CheckoutModel toEntity(PaymentRequest paymentRequest) {
 
         if(paymentRequest ==null) {
             return null;
         }
 
-        PaymentModel entity = new PaymentModel();
+        CheckoutModel entity = new CheckoutModel();
         entity.setName(paymentRequest.getName());
         entity.setEmail(paymentRequest.getEmail());
 
@@ -27,12 +27,12 @@ public class PaymentMapper {
         entity.setCvc(paymentRequest.getCvc());
         entity.setTotal(paymentRequest.getTotal());
         entity.setPaymentDate(LocalDateTime.now());
-        entity.setStatus(PaymentModel.PaymentStatus.PENDING);
+        entity.setStatus(CheckoutModel.PaymentStatus.PENDING);
 
         return entity;
     }
 
-    public PaymentResponse toResponse(PaymentModel model) {
+    public PaymentResponse toResponse(CheckoutModel model) {
 
         if (model == null) {
             return null;
