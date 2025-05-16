@@ -5,6 +5,7 @@ import com.lauder.app.ecommapp.model.PromotionModel;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 public class RebateEarnedResponse {
 
@@ -16,7 +17,7 @@ public class RebateEarnedResponse {
 
     private BigDecimal earnings;
 
-    private String month;
+    private YearMonth month;
 
     private LocalDateTime StartMonth;
 
@@ -55,11 +56,11 @@ public class RebateEarnedResponse {
         this.earnings = earnings;
     }
 
-    public String getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(YearMonth month) {
         this.month = month;
     }
 

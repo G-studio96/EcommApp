@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 public class RebateEarnedRequest {
 
@@ -24,7 +25,7 @@ public class RebateEarnedRequest {
 
     @NotBlank(message = "monthly earnings")
     @DateTimeFormat(pattern = "Jan, Feb, March, April, May, June, July, Aug, Sept, Oct, Nov, Dec")
-    private String month;
+    private YearMonth month;
 
     @NotBlank(message = "start of month which all promoter start the month on zero")
     private LocalDateTime StartMonth;
@@ -65,11 +66,11 @@ public class RebateEarnedRequest {
         this.earnings = earnings;
     }
 
-    public String getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(YearMonth month) {
         this.month = month;
     }
 

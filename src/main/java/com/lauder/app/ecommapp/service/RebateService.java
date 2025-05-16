@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -23,9 +26,10 @@ public class RebateService {
 
     private final RebateEarnedMapper rebateEarnedMapper;
 
+    private final Map<RebateEarned, BigDecimal> currentEarningForTheMonth = new HashMap<>();
+
     @Autowired
     RebateService(IRebateRepo rebateRepo, RebateEarnedMapper rebateEarnedMapper) {
-
         this.rebateRepo = rebateRepo;
         this.rebateEarnedMapper = rebateEarnedMapper;
     }
@@ -35,10 +39,11 @@ public class RebateService {
                 request.getPromoter().getPromotersId(),
                 request.getPromotionCode().getPromoCode());
 
-        Optional<RebateEarned> countEarnings = rebateRepo.countRebateEarnedByPromoterAndMonth(
+
+        Optional<RebateEarned> countEarnings = rebateRepo.findByPromoterAndIdAndMonth(
                 request.getPromoter(),
-                request.getMonth(),
-                request.getEarnings());
+                request.getId(),
+                request.getMonth());
 
         RebateEarned entityToSave = rebateEarnedMapper.toEntity(request, countEarnings.orElse(null));
 
@@ -50,18 +55,56 @@ public class RebateService {
     public RebateEarnedResponse updateEarnings(RebateEarnedRequest request) {
         logger.info("Update earnings for promoter {} ", request.getEarnings());
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime thirtyDaysAgo = now.minusDays(30);
+
+        if (request.getStartMonth().isBefore(thirtyDaysAgo)) {
+            throw new IllegalArgumentException("Request is outside of current period");
+        }
+
         Optional<RebateEarned> existingRecord = rebateRepo.findByPromoterAndIdAndMonth(
                 request.getPromoter(),
                 request.getId(),
                 request.getMonth()
         );
 
-
-        RebateEarned entityToSave = rebateEarnedMapper.toEntity(request, existingRecord.orElse(null));
+        RebateEarned entityToSave = existingRecord.map(existing -> {
+            existing.setEarnings(existing.getEarnings().add(request.getEarnings()));
+            return existing;
+        }).orElseGet(() -> rebateEarnedMapper.toEntity(request, null));
 
         RebateEarned savedEntity = rebateRepo.save(entityToSave);
 
-        return rebateEarnedMapper.toResponse(savedEntity);
+        currentEarningForTheMonth.entrySet().forEach(entry -> {
+            if (entry.getKey().equals(savedEntity)) {
+                entry.setValue(savedEntity.getEarnings());
+            }
+        });
 
+        return rebateEarnedMapper.toResponse(savedEntity);
+    }
+
+    public Set<RebateEarnedResponse> fetchCurrentPeriodEarningsForPromoter(RebateEarnedRequest request) {
+        logger.info("fetching the for the current period for the promoters: {}", request.getPromoter().getPromotersId());
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
+
+        List<RebateEarned> earnings = rebateRepo.findPromoterEarningsFromCurrentPeriod(
+                request.getPromoter().getPromotersId(),
+                thirtyDaysAgo);
+
+        return earnings.stream()
+                .map(rebateEarnedMapper::toResponse)
+                .collect(Collectors.toSet());
+    }
+
+    public List<RebateEarnedResponse> fetchAllCurrentEarningsFromPromoter() {
+        logger.info("fetching all date for current earnings for all Promoters, Earnings");
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
+
+        List<RebateEarned> earnings = rebateRepo.findAllByEarningsFromCurrentPeriod(thirtyDaysAgo);
+
+        return earnings.stream()
+                .map(rebateEarnedMapper::toResponse)
+                .collect(Collectors.toList());
     }
 }

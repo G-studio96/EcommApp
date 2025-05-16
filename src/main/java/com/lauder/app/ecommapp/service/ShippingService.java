@@ -37,6 +37,25 @@ public class ShippingService {
     public ShippingService(IShippingRepo shippingRepo, ShippingMapper shippingMapper) {
         this.shippingRepo = shippingRepo;
         this.shippingMapper = shippingMapper;
+
+    }
+
+    public ShippingResponse findCustomerOrderByShippingId(ShippingRequest request) {
+        logger.info("Customer Shipping Id inputted... {}", request.getShippingId());
+
+        List<Shipping> findCustomerShipment = shippingRepo.findByShippingId(request.getShippingId());
+
+        if (findCustomerShipment.isEmpty()) {
+            logger.info("Id {} is not in uses check the Id number again ", request.getShippingId());
+
+        }
+
+        Shipping shipping = findCustomerShipment.getFirst();
+
+        ShippingResponse response = shippingMapper.toResponse(shipping);
+
+        return response;
+
     }
 
     public List<ShippingResponse> findShippingByStatus(ShippingRequest request) {

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 @Entity
 @Table(name = "earnings")
@@ -25,12 +26,12 @@ public class RebateEarned {
 
     @Positive
     @Column(name = "earnings", nullable = false)
-    private BigDecimal earnings;
+    private BigDecimal earnings = BigDecimal.ZERO;
 
     @Column(name = "month", nullable = false)
-    private String month;
+    private YearMonth month;
 
-    @Column(name = "start_month")
+    @Column(name = "start_month", nullable = false)
     private LocalDateTime startMonth;
 
     @Column(name = "end_month")
@@ -38,7 +39,12 @@ public class RebateEarned {
 
     @PrePersist
     protected void onCreate() {
-        startMonth = LocalDateTime.now();
+        if (startMonth == null) {
+            startMonth = LocalDateTime.now();
+        }
+        if (month == null) {
+            month = YearMonth.now();
+        }
     }
 
     @PreUpdate
@@ -78,11 +84,11 @@ public class RebateEarned {
         this.earnings = earnings;
     }
 
-    public String getMonth() {
+    public YearMonth getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
+    public void setMonth(YearMonth month) {
         this.month = month;
     }
 
@@ -101,4 +107,5 @@ public class RebateEarned {
     public void setEndMonth(LocalDateTime endMonth) {
         this.endMonth = endMonth;
     }
+
 }
